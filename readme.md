@@ -3,11 +3,13 @@
 ### ERD
 
 <img src="./assets/images/erd.png">
+
 ------------
 
 ### API
 
 https://app.gitbook.com/o/dIXbtRUHE1NVtSVyECGI/s/0BOR4MJXj4PK8fyq0ME0/
+
 ------------
 
 ### commit message 메뉴얼
@@ -25,4 +27,5 @@ REFACTOR: 코드 리펙토링
 TEST: 테스트 코트, 리펙토링 테스트 코드 추가
 
 CHORE: 빌드 업무 수정, 패키지 매니저 수정(ex .gitignore 수정 같은 경우)
+
 ------------
