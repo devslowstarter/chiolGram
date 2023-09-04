@@ -9,7 +9,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 const usersRouter = require('./routes/usersRoute.js');
-// const boardsRouter = require('./routes/boardsRoute.js');
+const boardsRouter = require('./routes/boardsRoute.js');
 // const cmtsRouter = require('./routes/cmtsRoute.js');
 // const likeRouter = require('./routes/likesRoute.js');
 
@@ -20,7 +20,7 @@ app.use(cors()); // front-back connect
 
 // localhost:3000/api/
 app.use('/api', [usersRouter]);
-// app.use('/api', [boardsRouter]);
+app.use('/api', [boardsRouter]);
 // app.use('/api', [cmtsRouter]);
 // app.use('/api', [likesRouter]);
 // Middleware ==================================================
