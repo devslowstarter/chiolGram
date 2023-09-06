@@ -39,8 +39,6 @@ router.get('/:boardId/cmt', async (req, res) => {
     return res.status(400).json({ message: '댓글 조회에 실패하였습니다.' });
   }
 
-  // 원하는 댓글을 업데이트할 로직을 추가해야 함
-
   return res.status(200).json({ data: '조회가 완료되었습니다.' });
 });
 
