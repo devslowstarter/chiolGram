@@ -80,7 +80,7 @@ router.delete('/:boardId/cmt/:cmtId', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-
+  
 
 
 
