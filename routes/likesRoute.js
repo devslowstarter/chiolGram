@@ -19,4 +19,4 @@ router.post('/cmts/:cmtId/like', Authmiddleware, postLikesController.createComme
 // 댓글 좋아요 삭제
 router.delete('/cmts/:cmtId/like', Authmiddleware, postLikesController.deleteCommentLikes);
 
-module.exports = router;
+module.exports = router; 
