@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
   try {
     // const { userId } = jwt.verify(authToken, process.env.secretKey);
     // console.clear();
-    console.log('시크릿키:', process.env.CUSTOMIZED_SECRET_KEY);
+    // console.log('시크릿키:', process.env.CUSTOMIZED_SECRET_KEY);
     const { userId } = jwt.verify(authToken, process.env.CUSTOMIZED_SECRET_KEY);
     const user = await Users.findOne({ where: { userId } });
     if (!user) {
