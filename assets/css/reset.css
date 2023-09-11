@@ -64,3 +64,33 @@ table {
 	visibility: hidden;
 	line-height: 0;
 }
+
+/* ====================================================== */
+/* common css */
+#wrap {
+	position: relative;
+    width: calc(100%, -250px);
+    margin-left: 240px;
+	height: 100vh;
+}
+
+/* footer */
+#footer {
+	position: relative;
+    width: calc(100%, -250px);
+    margin-left: 240px;
+
+    background-color: #777;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#footer p {
+	color: #fff;
+    text-align: center;
+	font-weight: 500;
+}
+#footer .creator {
+    font-style: italic;
+    font-size: 12px;
+	font-weight: 200;
+}
