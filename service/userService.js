@@ -1,14 +1,10 @@
-/*
-const jwt = require('jsonwebtoken');
-const secretKey = require('../config/secretKey.json');
-
-const UserRepository = require('../repositorie/user.repository.js');
+const UserRepository = require('../repository/userRepository');
 
 class UserService {
   userRepository = new UserRepository();
 
   // 회원가입
-  signupUser = async (email,nickname, password, passwordConfirm) => {
+  signupUser = async (email, nickname, password, passwordConfirm) => {
     // 닉네임 : 알파벳 대소문자, 숫자, 3자 이상 10자 이하
     const checkNickname = /^[a-zA-Z0-9]{3,10}$/;
 
@@ -31,8 +27,7 @@ class UserService {
       if (password.length < 4 || password.includes(nickname)) {
         return {
           status: 412,
-          message:
-            '패스워드는 4글자 이상이어야 하며 닉네임을 포함할 수 없습니다.',
+          message: '패스워드는 4글자 이상이어야 하며 닉네임을 포함할 수 없습니다.',
         };
       } else if (password !== confirmPassword) {
         return {
@@ -80,7 +75,7 @@ class UserService {
       };
     }
 
-    const token = jwt.sign({ userId: findUserData.userId }, secretKey.key);
+    // const token = jwt.sign({ userId: findUserData.userId }, secretKey.key);
 
     return {
       status: 200,
@@ -91,4 +86,3 @@ class UserService {
 }
 
 module.exports = UserService;
-*/

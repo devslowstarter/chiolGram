@@ -3,37 +3,17 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 3000;
+const router = require('./routes');
 
 const path = require('path');
 
-// cookie parser
-const cookieParser = require('cookie-parser');
-
-const usersRouter = require('./routes/usersRoute.js');
-const boardsRouter = require('./routes/boardsRoute.js');
-const cmtsRouter = require('./routes/cmtsRoute.js');
-// const likeRouter = require('./routes/likesRoute.js');
-
 // Middleware ==================================================
-app.use(express.json()); // req.body parser
-app.use(cookieParser()); // cookie parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/api', router);
 app.use(cors()); // front-back connect
-
-// localhost:3000/api/
-app.use('/api', [usersRouter]);
-app.use('/api', [boardsRouter]);
-app.use('/api', [cmtsRouter]);
-// app.use('/api', [likesRouter]);
 // Middleware ==================================================
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('데이터베이스 연결 성공');
-  })
-  .catch((err) => {
-    console.error('데이터베이스 연결 실패:', err);
-  });
 
 // HTML, CSS
 app.use(express.static(path.join(__dirname, 'assets')));
