@@ -77,8 +77,16 @@ body.active #wrap .menu { margin-left: 0; width: 100%;}
     background-color: #fff;
     padding: 20px;
 }
-#mainVisual .story {}
-#mainVisual .story li {}
+#mainVisual .story {
+    display: flex;
+}
+#mainVisual .story li {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-left: 13px;
+}
 #mainVisual .story li a {}
 #mainVisual .story li a:hover {}
 
@@ -92,7 +100,7 @@ body.active #wrap .menu { margin-left: 0; width: 100%;}
 /* main - 게시물 */
 .main .board {
     width: 350px;
-    height: 500px;
+    height: 510px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -139,14 +147,21 @@ body.active #wrap .menu { margin-left: 0; width: 100%;}
 }
 .main .boardFooter .remote li a {
     font-weight: 600;
+    cursor: pointer;
 }
 
 /* main - 게시물etc */
 .main .board .etc {
-    margin: 50px auto;
+    margin-top: 60px;
 }
 .main .board .etc .like {
-    margin-bottom: 5px;
+    height: 30px;
+}
+.main .board .etc .boardContent {
+    margin-top: 5px;
+}
+.main .board .etc .boardHashtag {
+    margin-bottom: 15px;
 }
 .main .board .etc .popupBtn {
     cursor: pointer;
@@ -154,11 +169,32 @@ body.active #wrap .menu { margin-left: 0; width: 100%;}
     border-radius: 5px;
     transition: 0.3s;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 .main .board .etc .popupBtn:hover {
     background: #333;
     color: #fff;
+}
+
+/* main - 댓글공간 */
+.main .cmtSpace {}
+.main .cmtSpace .cmts {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+.main .cmtSpace .cmtSend {}
+.main .cmtSpace .cmtSend .cmtWrite {}
+.main .cmtSpace .cmtSend .cmtSendBtn {
+    cursor: pointer;
+    background: #fff;
+    border: 2px solid #ccc;
+    padding: 3px;
+    border-radius: 5px;
+}
+.main .cmtSpace .cmtSend .cmtSendBtn:hover {
+    background-color: rgb(199, 235, 245);
+    color: #333;
 }
 
 /* main - 댓글 모달창 */
@@ -190,6 +226,73 @@ body.active #wrap .menu { margin-left: 0; width: 100%;}
   font-size:25px;
   cursor: pointer;
 }
+.halfImg {
+    width: 40vw;
+    height: 71vh;
+}
+.cmtModal {
+    float: right;
+}
+.cmtModal li {
+    float: left;
+    padding-left: 10px;
+}
+.cmtModal li img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
 
 
+/* main - 게시물 모달창 */
+form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+form h2 {
+    font-size: 23px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+form div {
+    margin-bottom: 5px;
+}
+form div label {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+form div input {
+    font: 1em sans-serif;
+    width: 300px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 
+    border: 1px solid #999;
+}
+form .submitBtn {
+    padding-left: 90px;
+}
+form .submitBtn button {
+    margin-left: .5em;
+    background: none;
+    transition: 0.3s;
+}
+form .submitBtn button:hover {
+    background: #333;
+    color: #fff;
+}
+.btn {
+    background: none;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.btn:hover {
+    background: #333;
+    color: #fff;
+}
