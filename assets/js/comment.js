@@ -44,7 +44,6 @@ function uploadReview() {
     deleteBtn.addEventListener('click', removeComm);
     addReview.value = '';
     addReview.focus();
-    boardSize.style.height = +'10px';
   } else {
     alert('댓글을 입력해 주세요');
   }
