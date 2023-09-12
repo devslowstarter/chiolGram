@@ -1,56 +1,72 @@
-const BoardService = require('../service/board.service.js');
+const BoardService = require('../service/boardService.js');
 
 class BoardsController {
-  boardService = new PostService();
+  boardService = new BoardService();
 
-  // 게시글 전체 조회
-  getBords = async (req, res) => {
+  // POST
+  createBoard = async (req, res) => {
+    const { content, hashtag } = req.body;
+    const userId = res.locals.userId;
+
+    try {
+      await this.boardService.createBoard(content, hashtag, userId);
+      res.status(200).json({ message: '게시물 생성에 성공했습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
+  };
+
+  // GET - 게시글 전체조회
+  getBoards = async (req, res) => {
     const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
     const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
 
-    const { status, message, posts } = await this.boardService.findBoard(pageSize, pageNum);
-
-    return res.status(status).json({ message, posts });
+    const { status, message, boards } = await this.boardService.findBoard(pageSize, pageNum);
+    return res.status(status).json({ message, boards });
   };
 
-  // 게시글 상세 조회
-  getBordById = async (req, res) => {
-    const { postId } = req.params;
-
-    const { status, message, post } = await this.postService.findOneBoard(postId);
-
-    return res.status(status).json({ message, post });
+  // GET - 게시글 상세조회
+  getBoardById = async (req, res) => {
+    const { userId } = res.locals.user;
+    const { boardId } = req.params;
+    
+    try {
+      const getboard = await this.boardsService.getBoardAuth(userId, boardId);
+      return res.status(200).json({ data: getboard });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 
-  // 게시글 작성
-  createBord = async (req, res) => {
-    const { title, content } = req.body;
-    const userId = res.locals.userId;
-
-    const { status, message } = await this.postService.createBoard(title, content, userId);
-
-    return res.status(status).json({ message });
-  };
-
-  // 게시글 수정
+  // PUT
   updateBoard = async (req, res) => {
-    const { title, content } = req.body;
-    const { postId } = req.params;
-    const userId = res.locals.userId;
+    const { userId } = res.locals.user;
+    const { boardId } = req.params;
+    const { content, hashtag } = req.body;
 
-    const { status, message } = await this.postService.updateBoard(title, content, postId, userId);
-
-    return res.status(status).json({ message });
+    try {
+      await this.boardService.updateBoard(content, hashtag, boardId, userId);
+      res.status(200).json({ message: '게시물 수정에 성공했습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 
-  // 게시글 삭제
+  // DELETE
   deleteBoard = async (req, res) => {
-    const { postId } = req.params;
-    const userId = res.locals.userId;
+    const { boardId } = req.params;
+    const { userId } = res.locals.user;
 
-    const { status, message } = await this.postService.deleteBoard(postId, userId);
-
-    return res.status(status).json({ message });
+    try {
+      await this.boardsService.deleteBoard(boardId, userId);
+      res.status(200).json({ message: '게시물 삭제에 성공했습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 }
 

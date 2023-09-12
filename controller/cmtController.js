@@ -1,49 +1,59 @@
-const cmtService = require('../service/cmt.service.js');
+const cmtService = require('../service/cmtService.js');
 
 class CmtController {
   cmtService = new cmtService();
 
-  // 댓글 조회
-  getcmt = async (req, res) => {
-    const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
-    const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
+  // POST
+  createCmt = async (req, res) => {
     const { boardId } = req.params;
-
-    const { status, message, cmt } = await this.cmtService.findcmt(pageSize, pageNum, boardId);
-
-    return res.status(status).json({ message, cmt });
-  };
-
-  // 댓글 작성
-  createcmt = async (req, res) => {
+    const { userId } = res.locals.user;
     const { content } = req.body;
-    const { boardId } = req.params;
-    const userId = res.locals.userId;
 
     const { status, message } = await this.cmtService.createcmt(content, boardId, userId);
 
     return res.status(status).json({ message });
   };
 
-  // 댓글 수정
-  updatecmt = async (req, res) => {
-    const { content } = req.body;
-    const { boardId, cmtId } = req.params;
-    const userId = res.locals.userId;
+  // GET - boardId로 댓글 조회
+  getCmt = async (req, res) => {
+    const { boardId } = req.params;
 
-    const { status, message } = await this.cmtService.updatecmt(content, boardId, cmtId, userId);
+    try {
+      const cmts = await this.cmtService.getCmt(boardId);
 
-    return res.status(status).json({ message });
+      return res.status(200).json({ cmts });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 
-  // 댓글 삭제
-  deletecmt = async (req, res) => {
-    const { boardId, cmtId } = req.params;
-    const userId = res.locals.userId;
+  // PUT
+  updateCmt = async (req, res) => {
+    const { cmtId } = req.params;
+    const { nickname } = res.locals.user;
+    const { content } = req.body;
 
-    const { status, message } = await this.cmtService.deletecmt(boardId, cmtId, userId);
+    try {
+      await this.cmtService.updateCmt(cmtId, nickname, content);
+      return res.status(200).json({ message: '댓글을 수정하였습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
+  };
 
-    return res.status(status).json({ message });
+  // DELETE
+  deleteCmt = async (req, res) => {
+    const { cmtId } = req.params;
+
+    try {
+      await this.cmtService.deleteCmt(cmtId);
+      return res.status(200).json({ message: '댓글을 삭제하였습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 }
 

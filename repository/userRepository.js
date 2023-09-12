@@ -2,15 +2,15 @@ const { Users } = require('../models');
 
 class UserRepository {
   // loginId로 회원 조회
-  findUser = async (loginId) => {
+  findOne = async (loginId) => {
     return await Users.findOne({ where: { loginId } });
   };
   // 회원가입 API
-  createUser = async (loginId, hashPassword, nickname) => {
-    await Users.create({ loginId, password: hashPassword, nickname });
+  createUser = async (loginId, nickname, hashPassword) => {
+    await Users.create({ loginId, nickname, password: hashPassword });
   };
   //회원 정보 수정 API
-  updateUser = async (userId, hashPassword, nickname) => {
+  updateUser = async (nickname, userId, hashPassword ) => {
     const updateValues = {};
     if (hashPassword) updateValues.password = hashPassword;
     if (nickname) updateValues.nickname = nickname;

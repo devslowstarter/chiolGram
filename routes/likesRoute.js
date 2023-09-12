@@ -1,22 +1,23 @@
 const express = require('express');
-const { bords } = require('../models');
+const { boards } = require('../models');
 
 const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
-const PostLikesController = require('../controllers/postlikes.controller');
-const postLikesController = new PostLikesController();
+// 게시물!
+const BoardLikeController = require('../controller/likeController');
+const boardLikeController = new BoardLikeController();
 
-// 게시물 좋아요 생성
-router.post('/bords/:bordId/like', Authmiddleware, postLikesController.createPostLikes);
+// 댓글!
+const CmtLikeController = require('../controller/likeController');
+const cmtLikeController = new CmtLikeController();
 
-// 게시물 좋아요 삭제
-router.delete('/bords/:bordId/like', Authmiddleware, postLikesController.deletePostLikes);
+// 게시물 좋아요
+router.post('/boards/:boardId/like', authMiddleware, boardLikeController.getLikedPosts);
+router.delete('/boards/:boardId/like', authMiddleware, boardLikeController.boardLikeUnlike);
 
-// 댓글 좋아요 생성
-router.post('/cmts/:cmtId/like', Authmiddleware, postLikesController.createCommentLikes);
-
-// 댓글 좋아요 삭제
-router.delete('/cmts/:cmtId/like', Authmiddleware, postLikesController.deleteCommentLikes);
+// 댓글 좋아요
+router.post('/cmts/:cmtId/like', authMiddleware, cmtLikeController.getLikedCmts);
+router.delete('/cmts/:cmtId/like', authMiddleware, cmtLikeController.cmtLikeUnlike);
 
 module.exports = router;

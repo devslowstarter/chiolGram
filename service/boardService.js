@@ -1,4 +1,4 @@
-const BoardRepository = require('../repository/board.Repository.js');
+const BoardRepository = require('../repository/boardRepository.js');
 const { Boards } = require('../models');
 
 class BoardService {
