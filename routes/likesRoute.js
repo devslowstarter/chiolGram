@@ -1,7 +1,7 @@
-const express = require("express");
-const { bords } = require("../models");
+const express = require('express');
+const { bords } = require('../models');
 
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 const PostLikesController = require('../controllers/postlikes.controller');

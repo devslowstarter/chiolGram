@@ -1,4 +1,19 @@
 const express = require('express');
+const router = express.Router();
+
+const userController = require('../controller/user.controller.js');
+const userController = new usercontroller();
+
+// 회원가입
+router.post('/signup', userController.signupUser);
+
+// 로그인
+router.post('/login', userController.loginUser);
+
+module.exports = router;
+
+/*
+const express = require('express');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const router = express.Router();
@@ -154,3 +169,4 @@ router.delete('/user/:userId', async (req, res) => {
 });
 
 module.exports = router;
+*/

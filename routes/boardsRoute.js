@@ -1,4 +1,30 @@
 const express = require('express');
+const router = express.Router();
+
+const BoardController = require('../controller/board.controller.js');
+const BoardController = new BoardController();
+
+const authMiddleware = require('../middlewares/auth.middleware.js');
+
+// 게시글 전체 조회
+router.get('/board', board.controller.getboard);
+
+// 게시글 상세 조회
+// router.get('/board/:boardId', postsController.getPostById);
+
+// 게시글 작성
+router.post('/board', authMiddleware, board.controller.createboard);
+
+// 게시글 수정
+router.put('/board/:boardId', authMiddleware, board.controller.updateboard);
+
+// 게시글 삭제
+router.delete('/board/:boardId', authMiddleware, board.controller.deleteboard);
+
+module.exports = router;
+
+/*
+const express = require('express');
 const { Boards } = require('../models');
 const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
@@ -110,3 +136,4 @@ router.delete('/board/:boardId', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+*/

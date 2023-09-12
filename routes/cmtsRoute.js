@@ -1,6 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
+const cmtController = require('../controller/cmtController');
+const cmtController = new cmtController();
+
+router.post('/:boardId', authMiddleware, cmtController.postCmt);
+
+router.put('/:cmtId', authMiddleware, cmtController.updateCmt);
+router.delete('/:cmtId', cmtController.deleteCmt);
+
+module.exports = router;
+
+const authMiddleware = require('../middlewares/auth.middleware.js');
+
+// 댓글 조회
+router.get('/:boardId/cmt', cmtController.getCmt);
+
+// 댓글 작성
+router.post('/:boardId/cmt', authMiddleware, cmtController.createCmt);
+
+// 댓글 수정
+router.put('/:boardId/cmt/:cmtId', authMiddleware, cmtController.updateCmt);
+
+// 댓글 삭제
+router.delete('/:boardId/cmt/:cmtId', authMiddleware, cmtController.deleteCmt);
+
+module.exports = router;
+
+/*
+const express = require('express');
+const router = express.Router();
+
 const authMiddleware = require('../middlewares/authMiddleware');
 const { Cmts } = require('../models');
 
@@ -80,10 +110,4 @@ router.delete('/:boardId/cmt/:cmtId', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-  
-
-
-
-
-
-
+*/
