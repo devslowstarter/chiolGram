@@ -12,13 +12,13 @@ module.exports = {
       loginId: {
         type: Sequelize.STRING,
       },
-      nickname: {
-        type: Sequelize.STRING,
-      },
       password: {
         type: Sequelize.STRING,
       },
       passwordConfirm: {
+        type: Sequelize.STRING,
+      },
+      nickname: {
         type: Sequelize.STRING,
       },
       createdAt: {

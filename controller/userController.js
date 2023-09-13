@@ -1,4 +1,4 @@
-const UserService = require('../service/userService.js');
+const UserService = require('../service/userService');
 
 class userController {
   userService = new UserService();
@@ -15,7 +15,7 @@ class userController {
         return res.status(412).json({ message: '패스워드가 일치하지 않습니다.' });
       }
 
-      await this.userService.signupUser(loginId, password, nickname);
+      await this.userService.signupUser(loginId, password, passwordConfirm, nickname);
 
       return res.status(201).json({ message: '회원 가입에 성공하였습니다.' });
     } catch (err) {
@@ -25,30 +25,30 @@ class userController {
   };
 
   // 로그인
-  loginUser = async (loginId, password) => {
+  loginUser = async (req, res) => {
+    const { loginId, password } = req.body;
     
-    const user = await this.userRepository.findUser(loginId);
-    if (!user) {
-      throw new ApiError('닉네임 또는 패스워드를 확인해주세요.', 412);
-    }
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      throw new ApiError('닉네임 또는 패스워드를 확인해주세요.', 412);
-    }
+    try {
+      if (!loginId || !password) {
+        return res.status(412).json({ message: '입력되지 않은 정보가 있습니다.' });
+      }
 
-    const loginToken = jwt.sign({ userId: user.userId }, process.env.secretKey, {
-      expiresIn: '60m',
-    });
+      const { loginToken } = await this.userService.loginUser(loginId, password);
 
-    return { loginToken };
+      res.cookie('Authorization', `Bearer ${loginToken}`);
+      return res.status(200).json({ message: '로그인에 성공하였습니다.', loginToken });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
   };
 
   //회원 정보 조회 API
   getUser = async (req, res) => {
-    try {
-      const user = res.locals.user;
-      delete user.dataValues.password;
+    const { user } = res.locals.user;
 
+    try {
+      delete user.dataValues.password;
       return res.status(200).json({ user });
     } catch (err) {
       console.log(err);

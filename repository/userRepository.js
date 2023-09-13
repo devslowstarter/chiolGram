@@ -6,8 +6,8 @@ class UserRepository {
     return await Users.findOne({ where: { loginId } });
   };
   // 회원가입 API
-  createUser = async (loginId, nickname, hashPassword) => {
-    await Users.create({ loginId, nickname, password: hashPassword });
+  signupUser = async (loginId, hashPassword, passwordConfirm, nickname) => {
+    await Users.create({ loginId, password: hashPassword, passwordConfirm, nickname });
   };
   //회원 정보 수정 API
   updateUser = async (nickname, userId, hashPassword ) => {

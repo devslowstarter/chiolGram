@@ -6,9 +6,10 @@ const BoardController = require('../controller/boardController');
 const boardController = new BoardController();
 
 router.post('/', authMiddleware, boardController.createBoard);
-router.get('/', boardController.getBoards);
-router.get('/:boardId', boardController.getBoardById);
+router.get('/', boardController.findAllBoard);
+router.get('/:boardId', boardController.findOneBoard);
 router.put('/:boardId', authMiddleware, boardController.updateBoard);
-router.delete('/board/:boardId', authMiddleware, boardController.deleteBoard);
+router.delete('/:boardId', authMiddleware, boardController.deleteBoard);
+router.post('/auth/:boardId', authMiddleware, boardController.grantPermission); //보드 권한 설정
 
 module.exports = router;

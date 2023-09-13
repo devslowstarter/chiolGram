@@ -1,21 +1,81 @@
-const { boards } = require('../models');
+const { Boards, Auths } = require('../models');
+const { sequelize } = require('../models');
 
 class BoardRepository {
-  // 게시글 전체 조회
-  findAllBoard = async (findOption) => await boards.findAll(findOption);
+  findAllBoard = async () => {
+    const boards = await Boards.findAll();
+    return boards;
+  };
 
-  // 게시글 상세 조회
-  findOneBoard = async (findOption) => await boards.findOne(findOption);
+  // POST
+  createBoard = async (content, hashtag, image, userId) => {
+    try {
+      await sequelize.transaction(async (t) => {
+        const createBoardData = await Boards.create({
+          content,
+          hashtag,
+          image,
+          userId,
+          transaction: t,
+        });
 
-  // 게시글 작성
-  createBoard = async (createData) => await boards.create(createData);
+        const boardId = createBoardData.boardId;
+        const authId = userId;
 
-  // 게시글 수정
-  updateBoard = async (updateData, updateOption) =>
-    await boards.update(updateData, { where: updateOption });
+        await Auths.create({
+          boardId,
+          authId,
+          transaction: t,
+        });
+      });
+    } catch (Error) {
+      throw Error;
+    }
+  };
 
-  // 게시글 삭제
-  deleteBoard = async (deleteOption) => await boards.destroy({ where: deleteOption });
+  // PUT
+  putBoard = async (boardId, content, hashtag) => {
+    const modifyData = await Boards.update(
+      {
+        content,
+        hashtag,
+      },
+      {
+        where: {
+          boardId,
+        },
+      }
+    );
+    return modifyData;
+  };
+
+  // DELETE
+  deleteBoard = async (boardId) => {
+    const deletedData = await Boards.destroy({
+      where: {
+        boardId: boardId,
+      },
+    });
+
+    return deletedData;
+  };
+
+  getAuth = async (userId, boardId) => {
+    const auth = await Auths.findOne({ where: { authId: userId, boardId: boardId } });
+    return auth;
+  }
+  //보드조회
+  getBoardAuth = async (boardId) => {
+    const board = await Boards.findAll({ where: { boardId } });
+    return board;
+  };
+  // 보드 권한 설정
+  grantPermission = async (boardId, authId) => {
+    await Auths.create({
+      boardId,
+      authId,
+    });
+  };
 }
 
 module.exports = BoardRepository;

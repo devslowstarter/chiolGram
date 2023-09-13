@@ -1,15 +1,18 @@
 const BoardService = require('../service/boardService.js');
+const {getUserId,getUserName} = require('../util/user.util.js');
 
 class BoardsController {
   boardService = new BoardService();
 
   // POST
   createBoard = async (req, res) => {
-    const { content, hashtag } = req.body;
-    const userId = res.locals.userId;
+    const { content, hashtag, image } = req.body;
+    // const userId = res.locals.userId;
+    // const userId = res.locals.user.userId;
+    const userId = getUserId(res);
 
     try {
-      await this.boardService.createBoard(content, hashtag, userId);
+      await this.boardService.createBoard(content, hashtag, image, userId);
       res.status(200).json({ message: '게시물 생성에 성공했습니다.' });
     } catch (err) {
       console.log(err);
@@ -18,7 +21,7 @@ class BoardsController {
   };
 
   // GET - 게시글 전체조회
-  getBoards = async (req, res) => {
+  findAllBoard = async (req, res) => {
     const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
     const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
 
@@ -27,8 +30,8 @@ class BoardsController {
   };
 
   // GET - 게시글 상세조회
-  getBoardById = async (req, res) => {
-    const { userId } = res.locals.user;
+  findOneBoard = async (req, res) => {
+    const { userId } = res.locals.user.userId;
     const { boardId } = req.params;
     
     try {
@@ -63,6 +66,22 @@ class BoardsController {
     try {
       await this.boardsService.deleteBoard(boardId, userId);
       res.status(200).json({ message: '게시물 삭제에 성공했습니다.' });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.status || 500).json({ message: err.message });
+    }
+  };
+
+  grantPermission = async (req, res) => {
+    const creatorUserId = res.locals.user.userId;
+    const { userId } = req.body;
+    const { boardId } = req.params;
+
+    try {
+      // 권한을 부여하고 결과를 반환하는 서비스 호출
+      const grantedPermissionResult = await this.boardsService.grantPermission(boardId, userId, creatorUserId);
+
+      res.status(200).json({ message: '초대에 성공 하였습니다.' });
     } catch (err) {
       console.log(err);
       return res.status(err.status || 500).json({ message: err.message });
