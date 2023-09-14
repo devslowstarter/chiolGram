@@ -1,4 +1,5 @@
-const UserService = require('../service/userService');
+const UserService = require('../service/userService.js');
+const { getUserId } = require('../util/user.util.js');
 
 class userController {
   userService = new UserService();
@@ -6,7 +7,7 @@ class userController {
   // 회원가입
   signupUser = async (req, res) => {
     const { loginId, password, passwordConfirm, nickname } = req.body;
-    
+
     try {
       if (!loginId || !password || !nickname) {
         return res.status(412).json({ message: '입력되지 않은 정보가 있습니다.' });
@@ -27,7 +28,7 @@ class userController {
   // 로그인
   loginUser = async (req, res) => {
     const { loginId, password } = req.body;
-    
+
     try {
       if (!loginId || !password) {
         return res.status(412).json({ message: '입력되지 않은 정보가 있습니다.' });
@@ -43,20 +44,31 @@ class userController {
     }
   };
 
-  //회원 정보 조회 API
+  //회원 정보 조회 API [GET]
   getUser = async (req, res) => {
-    const { user } = res.locals.user;
-
     try {
+      const userId = getUserId(res);
+      if (!userId) {
+        return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+      }
+
+      const user = await this.userService.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+      }
+
+      // 사용자 정보에서 비밀번호를 삭제합니다.
       delete user.dataValues.password;
+
       return res.status(200).json({ user });
     } catch (err) {
-      console.log(err);
-      return res.status(err.status || 500).json({ message: err.message });
+      console.error(err);
+      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
     }
   };
 
-  //회원 정보 수정 API
+  //회원 정보 수정 API [PUT]
   updateUser = async (req, res) => {
     const { userId, password } = res.locals.user;
     const { existPassword, newPassword, newPasswordConfirm, nickname } = req.body;
@@ -75,7 +87,7 @@ class userController {
     }
   };
 
-  //회원 탈퇴 API
+  //회원 탈퇴 API [DELETE]
   deleteUser = async (req, res) => {
     const { userId, password } = res.locals.user;
     const { existPassword } = req.body;
@@ -94,6 +106,5 @@ class userController {
     }
   };
 }
-
 
 module.exports = userController;

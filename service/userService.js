@@ -32,7 +32,6 @@ class UserService {
 
   // 로그인 API
   loginUser = async (loginId, password) => {
-    
     const user = await this.userRepository.findOne(loginId);
     if (!user) {
       throw new ApiError('닉네임 또는 패스워드를 확인해주세요.', 412);
@@ -47,6 +46,29 @@ class UserService {
     });
 
     return { loginToken };
+  };
+
+  // 사용자 정보 조회 API
+  getUserById = async (userId) => {
+    try {
+      const user = await this.userRepository.findById(userId);
+      return user;
+    } catch (error) {
+      console.log('error : ', error);
+      throw new ApiError('사용자 정보를 가져오는 중에 오류가 발생했습니다.', 500);
+    }
+  };
+
+  updateUser = async (userId, updateValues) => {
+    // 필요한 비즈니스 로직 검사 (예: 사용자가 자신의 정보만 수정 가능한지 확인)
+
+    return this.userRepository.updateUser(userId, updateValues);
+  };
+
+  deleteUser = async (userId, deleteValues) => {
+    // 필요한 비즈니스 로직 검사 (예: 사용자가 자신의 정보만 수정 가능한지 확인)
+
+    return this.userRepository.deleteUser(userId, deleteValues);
   };
 }
 

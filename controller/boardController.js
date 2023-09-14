@@ -1,5 +1,5 @@
 const BoardService = require('../service/boardService.js');
-const {getUserId,getUserName} = require('../util/user.util.js');
+const { getUserId } = require('../util/user.util.js');
 
 class BoardsController {
   boardService = new BoardService();
@@ -7,8 +7,6 @@ class BoardsController {
   // POST
   createBoard = async (req, res) => {
     const { content, hashtag, image } = req.body;
-    // const userId = res.locals.userId;
-    // const userId = res.locals.user.userId;
     const userId = getUserId(res);
 
     try {
@@ -33,7 +31,7 @@ class BoardsController {
   findOneBoard = async (req, res) => {
     const { userId } = res.locals.user.userId;
     const { boardId } = req.params;
-    
+
     try {
       const getboard = await this.boardsService.getBoardAuth(userId, boardId);
       return res.status(200).json({ data: getboard });
@@ -79,7 +77,11 @@ class BoardsController {
 
     try {
       // 권한을 부여하고 결과를 반환하는 서비스 호출
-      const grantedPermissionResult = await this.boardsService.grantPermission(boardId, userId, creatorUserId);
+      const grantedPermissionResult = await this.boardsService.grantPermission(
+        boardId,
+        userId,
+        creatorUserId,
+      );
 
       res.status(200).json({ message: '초대에 성공 하였습니다.' });
     } catch (err) {

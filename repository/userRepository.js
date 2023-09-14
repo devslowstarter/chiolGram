@@ -10,7 +10,7 @@ class UserRepository {
     await Users.create({ loginId, password: hashPassword, passwordConfirm, nickname });
   };
   //회원 정보 수정 API
-  updateUser = async (nickname, userId, hashPassword ) => {
+  updateUser = async (nickname, userId, hashPassword) => {
     const updateValues = {};
     if (hashPassword) updateValues.password = hashPassword;
     if (nickname) updateValues.nickname = nickname;
