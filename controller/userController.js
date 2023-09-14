@@ -1,5 +1,4 @@
 const UserService = require('../service/userService.js');
-const { getUserId } = require('../util/user.util.js');
 
 class userController {
   userService = new UserService();
@@ -46,20 +45,23 @@ class userController {
 
   //회원 정보 조회 API [GET]
   getUser = async (req, res) => {
+    const userId = res.locals.user.userId;
+    const loginId = req.params.loginId;
+
     try {
-      const userId = getUserId(res);
       if (!userId) {
         return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
       }
 
-      const user = await this.userService.getUserById(userId);
+      console.log('userService:', this.userService);
+      const user = await this.userService.findOne(loginId);
 
       if (!user) {
         return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
       }
 
-      // 사용자 정보에서 비밀번호를 삭제합니다.
-      delete user.dataValues.password;
+      // 사용자 정보에서 비밀번호를 삭제
+      delete user.password;
 
       return res.status(200).json({ user });
     } catch (err) {
@@ -90,14 +92,15 @@ class userController {
   //회원 탈퇴 API [DELETE]
   deleteUser = async (req, res) => {
     const { userId, password } = res.locals.user;
-    const { existPassword } = req.body;
+    // const { existPassword } = req.body;
 
+    // console.log(existPassword);
     try {
-      if (!existPassword) {
-        return res.status(412).json({ errorMessage: '입력되지 않은 정보가 있습니다.' });
-      }
+      // if (!existPassword) {
+      //   return res.status(412).json({ errorMessage: '입력되지 않은 정보가 있습니다.' });
+      // }
 
-      await this.userService.deleteUser(userId, password, existPassword);
+      await this.userService.deleteUser(userId, password);
 
       return res.status(200).json({ message: '회원 탈퇴 완료하였습니다.' });
     } catch (err) {

@@ -49,9 +49,12 @@ class UserService {
   };
 
   // 사용자 정보 조회 API
-  getUserById = async (userId) => {
+  getUser = async (userId) => {
     try {
-      const user = await this.userRepository.findById(userId);
+      const user = await this.userRepository.findOne(userId);
+      if (!user) {
+        throw new ApiError('사용자를 찾을 수 없습니다.', 404);
+      }
       return user;
     } catch (error) {
       console.log('error : ', error);
@@ -60,14 +63,10 @@ class UserService {
   };
 
   updateUser = async (userId, updateValues) => {
-    // 필요한 비즈니스 로직 검사 (예: 사용자가 자신의 정보만 수정 가능한지 확인)
-
     return this.userRepository.updateUser(userId, updateValues);
   };
 
   deleteUser = async (userId, deleteValues) => {
-    // 필요한 비즈니스 로직 검사 (예: 사용자가 자신의 정보만 수정 가능한지 확인)
-
     return this.userRepository.deleteUser(userId, deleteValues);
   };
 }
