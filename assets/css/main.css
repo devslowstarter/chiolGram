@@ -1,0 +1,298 @@
+/* header sideBar */
+body.active #wrap .sideBar{ left: -250px;}
+body.active #wrap #mainVisual{ left: -250px;}
+body.active #wrap #subVisual{ left: -250px;}
+body.active #wrap .main{ left: -250px;}
+
+body.active #wrap .menu { margin-left: 0; width: 100%;}
+
+#header + #mainVisual + #subVisual + .main + #footer {
+	height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+/* header */
+#header {
+    position: fixed;
+    top: 0; left: 0; 
+    padding: 20px 0; 
+    transition: all 0.5s ease; 
+    z-index: 0;
+    width: 200px;
+    background-color: #333;
+    height: 100vh;
+    padding: 20px;
+}
+#header h1 {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+    
+#header h1 a {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: 'Jua', sans-serif;
+}
+
+#header .nav .gnb {
+    margin-bottom: 30px;
+}
+#header .nav .gnb li {
+    margin-right: 20px;
+    line-height: 2.3;
+}
+#header .nav .gnb li a {
+    color: #fff;
+}
+#header .nav .gnb li a:hover {
+    border-bottom: 2px solid #fff;
+}
+
+#header .sideMenu {
+    display: flex;
+    justify-content: center;
+    margin-top: 500px;
+}
+#header .sideMenu li {
+    padding-left: 15px;
+}
+#header .sideMenu li:first-child {
+    padding-left: 0;
+}
+#header .sideMenu li a {
+    color: #fff;
+    font-size: 13px;
+}
+#header .sideMenu li a:hover {
+    border-bottom: 2px solid #fff;
+}
+
+
+
+/* mainVisual - 스토리 */
+#mainVisual {
+    background-color: #fff;
+    padding: 20px;
+}
+#mainVisual .story {
+    display: flex;
+}
+#mainVisual .story li {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-left: 13px;
+}
+#mainVisual .story li a {}
+#mainVisual .story li a:hover {}
+
+
+/* main */
+#container {
+    background-color: #fff;
+    margin-top: 35px;
+  }
+
+/* main - 게시물 */
+.main .board {
+    width: 350px;
+    height: 510px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 70px;
+}
+
+/* main - 게시물header */
+.main .boardHeader {
+    margin-bottom: 40px;
+}
+.main .boardHeader .boardTitle {}
+.main .boardHeader .boardTitle img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.main .boardHeader .boardTitle li {
+    float: left;
+    margin-left: 10px;
+}
+.main .boardHeader .boardTitle li:first-child {
+    margin-left: 0;
+}
+
+/* main - 게시물body */
+.main .boardBody {}
+.main .boardBody img {
+    width: 100%;
+    border-radius: 3px;
+}
+
+/* main - 게시물footer */
+.main .boardFooter {
+    margin-top: 15px;
+}
+.main .boardFooter .remote {}
+.main .boardFooter .remote li {
+    float: left;
+    margin-left: 10px;
+}
+.main .boardFooter .remote li:first-child {
+    margin-left: 0;
+}
+.main .boardFooter .remote li a {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* main - 게시물etc */
+.main .board .etc {
+    margin-top: 60px;
+}
+.main .board .etc .like {
+    height: 30px;
+}
+.main .board .etc .boardContent {
+    margin-top: 5px;
+}
+.main .board .etc .boardHashtag {
+    margin-bottom: 15px;
+}
+.main .board .etc .popupBtn {
+    cursor: pointer;
+    background: #fff;
+    border-radius: 5px;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: 40px;
+}
+.main .board .etc .popupBtn:hover {
+    background: #333;
+    color: #fff;
+}
+
+/* main - 댓글공간 */
+.main .cmtSpace {}
+.main .cmtSpace .cmts {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 5px;
+}
+.main .cmtSpace .cmtSend {}
+.main .cmtSpace .cmtSend .cmtWrite {}
+.main .cmtSpace .cmtSend .cmtSendBtn {
+    cursor: pointer;
+    background: #fff;
+    border: 2px solid #ccc;
+    padding: 3px;
+    border-radius: 5px;
+}
+.main .cmtSpace .cmtSend .cmtSendBtn:hover {
+    background-color: rgb(199, 235, 245);
+    color: #333;
+}
+
+/* main - 댓글 모달창 */
+.modalWrap {
+	position: fixed;
+	z-index: 1;
+	padding-top: 100px;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0,0,0,0.4);
+	display: none;
+  }
+.modalBody {
+  width: 70%;
+  height: 600px;
+  padding: 30px 30px;
+  margin: 0 auto;
+  border: 1px solid #777;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.closeBtn {
+  float:right;
+  font-weight: bold;
+  color: #777;
+  font-size:25px;
+  cursor: pointer;
+}
+.halfImg {
+    width: 40vw;
+    height: 71vh;
+}
+.cmtModal {
+    float: right;
+}
+.cmtModal li {
+    float: left;
+    padding-left: 10px;
+}
+.cmtModal li img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+
+/* main - 게시물 모달창 */
+form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+form h2 {
+    font-size: 23px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+form div {
+    margin-bottom: 5px;
+}
+form div label {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+form div input {
+    font: 1em sans-serif;
+    width: 300px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    border: 1px solid #999;
+}
+form .submitBtn {
+    padding-left: 90px;
+}
+form .submitBtn button {
+    margin-left: .5em;
+    background: none;
+    transition: 0.3s;
+}
+form .submitBtn button:hover {
+    background: #333;
+    color: #fff;
+}
+.btn {
+    background: none;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.btn:hover {
+    background: #333;
+    color: #fff;
+}
