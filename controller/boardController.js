@@ -1,13 +1,18 @@
 const BoardService = require('../service/boardService.js');
-const { getUserId } = require('../util/user.util.js');
+// const { getUserId } = require('../util/user.util.js');
 
 class BoardsController {
   boardService = new BoardService();
 
   // POST
   createBoard = async (req, res) => {
+    const { userId } = res.locals.user;
+    // const { userId } = res.locals.userId;
     const { content, hashtag, image } = req.body;
-    const userId = getUserId(res);
+    console.log('content', content);
+    console.log('hashtag', hashtag);
+    console.log('image', image);
+    console.log('userId', userId);
 
     try {
       await this.boardService.createBoard(content, hashtag, image, userId);
@@ -23,8 +28,14 @@ class BoardsController {
     const pageSize = Number(req.query.pageSize ? req.query.pageSize : 10);
     const pageNum = Number(req.query.pageNum ? req.query.pageNum : 1);
 
-    const { status, message, boards } = await this.boardService.findBoard(pageSize, pageNum);
-    return res.status(status).json({ message, boards });
+    // const { status, message, boards } = await this.boardService.findAllBoard(pageSize, pageNum);
+    // return res.status(status).json({ message, boards });
+    const defaultStatus = 200; // 예: 200은 성공 상태 코드
+    const {
+      status = defaultStatus,
+      message,
+      boards,
+    } = await this.boardService.findAllBoard(pageSize, pageNum);
   };
 
   // GET - 게시글 상세조회
@@ -33,7 +44,7 @@ class BoardsController {
     const { boardId } = req.params;
 
     try {
-      const getboard = await this.boardsService.getBoardAuth(userId, boardId);
+      const getboard = await this.boardsService.findOneBoar(userId, boardId);
       return res.status(200).json({ data: getboard });
     } catch (err) {
       console.log(err);
@@ -43,7 +54,7 @@ class BoardsController {
 
   // PUT
   updateBoard = async (req, res) => {
-    const { userId } = res.locals.user;
+    const { userId } = res.locals.user.userId;
     const { boardId } = req.params;
     const { content, hashtag } = req.body;
 
@@ -64,26 +75,6 @@ class BoardsController {
     try {
       await this.boardsService.deleteBoard(boardId, userId);
       res.status(200).json({ message: '게시물 삭제에 성공했습니다.' });
-    } catch (err) {
-      console.log(err);
-      return res.status(err.status || 500).json({ message: err.message });
-    }
-  };
-
-  grantPermission = async (req, res) => {
-    const creatorUserId = res.locals.user.userId;
-    const { userId } = req.body;
-    const { boardId } = req.params;
-
-    try {
-      // 권한을 부여하고 결과를 반환하는 서비스 호출
-      const grantedPermissionResult = await this.boardsService.grantPermission(
-        boardId,
-        userId,
-        creatorUserId,
-      );
-
-      res.status(200).json({ message: '초대에 성공 하였습니다.' });
     } catch (err) {
       console.log(err);
       return res.status(err.status || 500).json({ message: err.message });

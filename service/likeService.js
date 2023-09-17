@@ -18,10 +18,10 @@ class LikeService {
         },
         {
           model: Boards,
-          attributes: ['title', 'content', 'likeCount'],
+          attributes: ['content', 'hashtag', 'likeCount'],
         },
       ],
-      order: [[Posts, 'likeCount', 'DESC']],
+      order: [[Boards, 'likeCount', 'DESC']],
     });
 
     if (likedBoards.length === 0) {
@@ -40,7 +40,7 @@ class LikeService {
   // 좋아요, 좋아요 취소
   boardLikeUnlike = async (boardId, userId) => {
     const findPostData = await this.postRepository.findOnePost({
-      where: { postId },
+      where: { boardId },
     });
 
     if (!findPostData) {
@@ -51,16 +51,16 @@ class LikeService {
     }
 
     const findLikeData = await this.likeRepository.findOneLiked({
-      where: { postId: findPostData.postId, userId },
+      where: { boardId: findPostData.boardId, userId },
     });
 
     if (!findLikeData) {
-      await this.postRepository.updatePost(
+      await this.boardRepository.updatePost(
         { likeCount: findPostData.likeCount + 1 },
-        { postId: findPostData.postId }
+        { boardId: findPostData.boardId },
       );
-      await this.likeRepository.postLike({
-        postId: findPostData.postId,
+      await this.likeRepository.boardLike({
+        boardId: findPostData.boardId,
         userId,
       });
       return {
@@ -69,12 +69,12 @@ class LikeService {
       };
     }
 
-    await this.postRepository.updatePost(
+    await this.boardRepository.updatePost(
       { likeCount: findPostData.likeCount - 1 },
-      { postId: findPostData.postId }
+      { boardId: findPostData.boardId },
     );
     await this.likeRepository.postUnlike({
-      where: { postId: findPostData.postId, userId },
+      where: { boardId: findPostData.boardId, userId },
     });
     return {
       status: 200,

@@ -2,20 +2,21 @@ const { cmts } = require('../models');
 
 class cmtRepository {
   // 댓글 조회
-  findAllcmt = async (findOption) => await cmts.findAll(findOption);
+  getCmt = async (cmtId) => {
+    return await cmts.findOne({ where: { id: cmtId } });
+  };
 
-  // 댓글 상세 조회
-  findOnecmt = async (findOption) => await cmts.findOne(findOption);
+  createCmt = async (boardId, content) => {
+    await cmts.create({ boardId, content });
+  };
 
-  // 댓글 작성
-  createcmt = async (createData) => await cmts.create(createData);
+  updateCmt = async (cmtId, content) => {
+    return await cmts.update({ content }, { where: { id: cmtId } });
+  };
 
-  // 댓글 수정
-  updatecmt = async (updateData, updateOption) =>
-    await cmts.update(updateData, { where: updateOption });
-
-  // 댓글 삭제
-  deletecmt = async (deleteOption) => await cmts.destroy({ where: deleteOption });
+  deleteCmt = async (cmtId) => {
+    return await cmts.destroy({ where: { id: cmtId } });
+  };
 }
 
 module.exports = cmtRepository;

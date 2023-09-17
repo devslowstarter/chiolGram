@@ -20,13 +20,13 @@ class BoardRepository {
         });
 
         const boardId = createBoardData.boardId;
-        const authId = userId;
+        // const authId = userId;
 
-        await Auths.create({
-          boardId,
-          authId,
-          transaction: t,
-        });
+        // await Auths.create({
+        //   boardId,
+        //   authId,
+        //   transaction: t,
+        // });
       });
     } catch (Error) {
       throw Error;
@@ -34,17 +34,18 @@ class BoardRepository {
   };
 
   // PUT
-  putBoard = async (boardId, content, hashtag) => {
+  putBoard = async (boardId, content, hashtag, image) => {
     const modifyData = await Boards.update(
       {
         content,
         hashtag,
+        image,
       },
       {
         where: {
           boardId,
         },
-      }
+      },
     );
     return modifyData;
   };
@@ -63,18 +64,11 @@ class BoardRepository {
   getAuth = async (userId, boardId) => {
     const auth = await Auths.findOne({ where: { authId: userId, boardId: boardId } });
     return auth;
-  }
-  //보드조회
+  };
+  // 조회
   getBoardAuth = async (boardId) => {
     const board = await Boards.findAll({ where: { boardId } });
     return board;
-  };
-  // 보드 권한 설정
-  grantPermission = async (boardId, authId) => {
-    await Auths.create({
-      boardId,
-      authId,
-    });
   };
 }
 

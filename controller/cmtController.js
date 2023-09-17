@@ -1,15 +1,15 @@
-const cmtService = require('../service/cmtService.js');
+const CmtService = require('../service/cmtService');
 
 class CmtController {
-  cmtService = new cmtService();
+  cmtService = new CmtService();
 
   // POST
   createCmt = async (req, res) => {
+    const { content } = req.body;
     const { boardId } = req.params;
     const { userId } = res.locals.user;
-    const { content } = req.body;
 
-    const { status, message } = await this.cmtService.createcmt(content, boardId, userId);
+    const { status, message } = await this.cmtService.createCmt(content, boardId, userId);
 
     return res.status(status).json({ message });
   };
@@ -30,12 +30,12 @@ class CmtController {
 
   // PUT
   updateCmt = async (req, res) => {
-    const { cmtId } = req.params;
-    const { nickname } = res.locals.user;
     const { content } = req.body;
+    const { cmtId } = req.params;
+    const { userId } = res.locals.user;
 
     try {
-      await this.cmtService.updateCmt(cmtId, nickname, content);
+      await this.cmtService.updateCmt(cmtId, userId, content);
       return res.status(200).json({ message: '댓글을 수정하였습니다.' });
     } catch (err) {
       console.log(err);

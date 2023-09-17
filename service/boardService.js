@@ -26,7 +26,6 @@ class BoardService {
 
   // 게시물 생성
   createBoard = async (content, hashtag, image, userId) => {
-    
     if (!content || !hashtag || !image) {
       throw new ApiError('게시물 내용, 해시태그, 이미지, 사용자 ID를 입력해야 합니다.', 400);
     }
@@ -40,10 +39,10 @@ class BoardService {
       throw new ApiError('게시물 제목, 내용을 입력해야 합니다.', 411);
     }
 
-    const auth = await this.boardsRepository.getAuth(userId, boardId);
-    if (!auth) {
-      throw new ApiError('보드를 수정할 권한이 없습니다.', 411);
-    }
+    // const auth = await this.boardsRepository.getAuth(userId, boardId);
+    // if (!auth) {
+    //   throw new ApiError('보드를 수정할 권한이 없습니다.', 411);
+    // }
   };
 
   // 게시글 삭제
@@ -57,21 +56,6 @@ class BoardService {
       throw new ApiError('게시물 생성자가 아닙니다.', 411);
     }
     await this.boardsRepository.deleteBoard(boardId);
-  };
-
-  grantPermission = async (boardId, userId, creatorUserId) => {
-    const board = await this.boardsRepository.getBoardAuth(boardId);
-
-    if (!board) {
-      throw new ApiError('게시물을 찾을 수 없습니다.', 404);
-    }
-
-    if (board.userId !== creatorUserId) {
-      throw new ApiError('게시물 생성자만 권한을 부여할 수 있습니다.', 403);
-    }
-
-    const authId = userId;
-    await this.boardsRepository.grantPermission(boardId, authId);
   };
 }
 

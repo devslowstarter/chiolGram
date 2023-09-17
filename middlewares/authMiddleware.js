@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
   //   Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NDU4MTU4OCwiZXhwIjoxNjk0NTg1MTg4fQ.fqNWYou2wYBB-YqWv4s6yUNv_cqA3Ms0DZVILYG4FNQ'
   // };
   // console.log(req.cookies);
-  console.log(Authorization);
+  // console.log(Authorization);
   const [authType, authToken] = (Authorization ?? '').split(' ');
 
   // console.log('authtoken', authToken);
