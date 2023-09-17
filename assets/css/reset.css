@@ -80,6 +80,7 @@ table {
 	position: relative;
     width: calc(100%, -250px);
     margin-left: 240px;
+	bottom: 0;
 
     background-color: #777;
 	padding-top: 10px;
