@@ -9,27 +9,47 @@ function logout() {
   }
 }
 
-// 2. 게시물을 생성하는 함수
-function createPost(postInfo) {
-  // 게시물 요소 생성
-  const board = document.createElement("div");
-  board.classList.add("board");
+// 2. 게시물 값 가져오기
+const data = {
+  author: $('#userId').val(),
+  createAt: $('#createAt').val(),
+  content: $('#boardContent').val(),
+  hashtag: $('#boardHashtag').val(),
+  image: $('#image').val(),
+};
+// axios
+//   .get('http://localhost:3000/api/board', data)
+//   .then((response) => {
+//     alert('보드 db get 완료');
+//     const dataArray = response.data.data;
+//     dataArray.forEach((postInfo) => {
+//       createPost(postInfo);
+//     });
+//   })
+//   .catch((error) => {
+//     alert('보드 정보 조회 실패!');
+//     console.log(error);
+//   });
 
-  // 게시물 헤더 생성
-  const boardHeader = document.createElement("div");
-  boardHeader.classList.add("boardHeader");
-  const boardTitle = document.createElement("ul");
-  boardTitle.classList.add("boardTitle");
+// 3. 게시물을 생성하는 함수
+function createPost(postInfo) {
+  const board = document.createElement('div');
+  board.classList.add('board');
+
+  const boardHeader = document.createElement('div');
+  boardHeader.classList.add('boardHeader');
+  const boardTitle = document.createElement('ul');
+  boardTitle.classList.add('boardTitle');
 
   // 작성자 정보 생성
-  const authorLi = document.createElement("li");
-  const authorLink = document.createElement("a");
-  authorLink.href = "#";
+  const authorLi = document.createElement('li');
+  const authorLink = document.createElement('a');
+  authorLink.href = '#';
   authorLink.textContent = postInfo.author;
   authorLi.appendChild(authorLink);
 
   // 날짜 정보 생성
-  const dateLi = document.createElement("li");
+  const dateLi = document.createElement('li');
   dateLi.textContent = postInfo.date;
 
   // 게시물 헤더에 작성자 정보와 날짜 정보 추가
@@ -38,39 +58,39 @@ function createPost(postInfo) {
   boardHeader.appendChild(boardTitle);
 
   // 게시물 내용 생성
-  const boardBody = document.createElement("div");
-  boardBody.classList.add("boardBody");
-  const image = document.createElement("img");
-  image.src = "./images/exampleImg.jpeg";
-  image.alt = "예시사진";
+  const boardBody = document.createElement('div');
+  boardBody.classList.add('boardBody');
+  const image = document.createElement('img');
+  image.src = './images/exampleImg.jpeg';
+  image.alt = '예시사진';
   boardBody.appendChild(image);
 
   // 게시물 푸터 생성
-  const boardFooter = document.createElement("div");
-  boardFooter.classList.add("boardFooter");
-  const remote = document.createElement("ul");
-  remote.classList.add("remote");
+  const boardFooter = document.createElement('div');
+  boardFooter.classList.add('boardFooter');
+  const remote = document.createElement('ul');
+  remote.classList.add('remote');
 
   // 좋아요 버튼 생성
-  const likeLi = document.createElement("li");
-  const likeButton = document.createElement("a");
-  likeButton.classList.add("heartBtn");
+  const likeLi = document.createElement('li');
+  const likeButton = document.createElement('a');
+  likeButton.classList.add('heartBtn');
   likeButton.innerHTML = '<i class="xi-heart-o xi-2x"></i>';
-  likeButton.addEventListener("click", addLike);
+  likeButton.addEventListener('click', addLike);
   likeLi.appendChild(likeButton);
 
   // 댓글 버튼 생성
-  const commentLi = document.createElement("li");
-  const commentButton = document.createElement("a");
-  commentButton.classList.add("cmtBtn");
-  commentButton.id = "popupBtn";
+  const commentLi = document.createElement('li');
+  const commentButton = document.createElement('a');
+  commentButton.classList.add('cmtBtn');
+  commentButton.id = 'popupBtn';
   commentButton.innerHTML = '<i class="xi-comment-o xi-2x"></i>';
   commentLi.appendChild(commentButton);
 
   // 공유 버튼 생성
-  const shareLi = document.createElement("li");
-  const shareButton = document.createElement("a");
-  shareButton.addEventListener("click", clip);
+  const shareLi = document.createElement('li');
+  const shareButton = document.createElement('a');
+  shareButton.addEventListener('click', clip);
   shareButton.innerHTML = '<i class="xi-share-alt-o xi-2x"></i>';
   shareLi.appendChild(shareButton);
 
@@ -81,17 +101,17 @@ function createPost(postInfo) {
   boardFooter.appendChild(remote);
 
   // 기타 정보 생성 (좋아요 수, 게시물 내용, 해시태그)
-  const etc = document.createElement("div");
-  etc.classList.add("etc");
-  const likeCount = document.createElement("div");
-  likeCount.classList.add("like");
-  likeCount.id = "likeCount";
+  const etc = document.createElement('div');
+  etc.classList.add('etc');
+  const likeCount = document.createElement('div');
+  likeCount.classList.add('like');
+  likeCount.id = 'likeCount';
   likeCount.textContent = postInfo.likeCount;
-  const boardContent = document.createElement("div");
-  boardContent.classList.add("boardContent");
+  const boardContent = document.createElement('div');
+  boardContent.classList.add('boardContent');
   boardContent.textContent = postInfo.content;
-  const boardHashtag = document.createElement("div");
-  boardHashtag.classList.add("boardHashtag");
+  const boardHashtag = document.createElement('div');
+  boardHashtag.classList.add('boardHashtag');
   boardHashtag.textContent = postInfo.hashtag;
 
   // 기타 정보를 기타 요소에 추가
@@ -100,29 +120,29 @@ function createPost(postInfo) {
   etc.appendChild(boardHashtag);
 
   // 댓글 공간 생성
-  const cmtSpace = document.createElement("div");
-  cmtSpace.classList.add("cmtSpace");
-  const cmts = document.createElement("ul");
-  cmts.classList.add("cmts");
-  cmts.id = "cmts";
-  const cmtSend = document.createElement("div");
-  cmtSend.classList.add("cmtSend");
-  cmtSend.id = "cmtSend";
+  const cmtSpace = document.createElement('div');
+  cmtSpace.classList.add('cmtSpace');
+  const cmts = document.createElement('ul');
+  cmts.classList.add('cmts');
+  cmts.id = 'cmts';
+  const cmtSend = document.createElement('div');
+  cmtSend.classList.add('cmtSend');
+  cmtSend.id = 'cmtSend';
 
   // 댓글 입력란 생성
-  const cmtWrite = document.createElement("input");
-  cmtWrite.type = "text";
-  cmtWrite.classList.add("cmtWrite");
-  cmtWrite.id = "cmtWrite";
-  cmtWrite.placeholder = "댓글입력";
+  const cmtWrite = document.createElement('input');
+  cmtWrite.type = 'text';
+  cmtWrite.classList.add('cmtWrite');
+  cmtWrite.id = 'cmtWrite';
+  cmtWrite.placeholder = '댓글입력';
 
   // 댓글 전송 버튼 생성
-  const cmtSendBtn = document.createElement("input");
-  cmtSendBtn.type = "button";
-  cmtSendBtn.classList.add("cmtSendBtn");
-  cmtSendBtn.id = "cmtSendBtn";
-  cmtSendBtn.value = "게시";
-  cmtSendBtn.addEventListener("click", uploadReview);
+  const cmtSendBtn = document.createElement('input');
+  cmtSendBtn.type = 'button';
+  cmtSendBtn.classList.add('cmtSendBtn');
+  cmtSendBtn.id = 'cmtSendBtn';
+  cmtSendBtn.value = '게시';
+  cmtSendBtn.addEventListener('click', uploadReview);
 
   // 댓글 입력란과 버튼을 댓글 공간에 추가
   cmtSend.appendChild(cmtWrite);
@@ -140,35 +160,24 @@ function createPost(postInfo) {
   board.appendChild(cmtSpace);
 
   // 생성된 게시물을 원하는 부모 요소에 추가
-  const boardContainer = document.getElementById("content");
+  const boardContainer = document.getElementById('content');
   boardContainer.appendChild(board);
 }
 
-
-// 3. 게시물 값 가져오기
-const data = {
-  author: $('#userId').val(),
-  createAt: $('#createAt').val(),
-  content: $('#boardContent').val(),
-  hashtag: $('#boardHashtag').val(),
-  image: $('#image').val(),
-};
-axios
-  .get('http://localhost:3000/api/board', data)
-  .then((response) => {
-    console.log(data);
-    alert('보드 db get 완료');
-    const dataArray = response.data.data;
-    generateBoard(dataArray);
-  })
-  .catch((error) => {
-    alert('보드 정보 조회 실패!');
-    console.log(error);
-  });
-
-
-
 // 페이지 로드 시 게시물 생성
 window.onload = () => {
-  createPost(data); // 가져온 데이터를 사용하여 게시물 생성
+  axios
+    .get('http://localhost:3000/api/board')
+    .then((response) => {
+      console.log(response.data);
+      alert('보드 db get 완료');
+      const dataArray = response.data.data;
+      dataArray.forEach((postInfo) => {
+        createPost(postInfo);
+      });
+    })
+    .catch((error) => {
+      alert('보드 정보 조회 실패!');
+      console.log(error);
+    });
 };
