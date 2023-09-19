@@ -167,9 +167,8 @@ function createPost(postInfo) {
 // 페이지 로드 시 게시물 생성
 window.onload = () => {
   axios
-    .get('http://localhost:3000/api/board')
+    .get('http://localhost:3000/api/board',data)
     .then((response) => {
-      console.log(response.data);
       alert('보드 db get 완료');
       const dataArray = response.data.data;
       dataArray.forEach((postInfo) => {
