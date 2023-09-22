@@ -5,6 +5,10 @@ const port = 3000;
 
 const path = require('path');
 
+//팔로워 기능
+const usersRouter = require('./routes/usersRouter');
+app.use('/followers', usersRouter);
+
 // cookie parser
 const cookieParser = require('cookie-parser');
 
@@ -28,10 +32,10 @@ app.use('/api', [boardsRouter]);
 // HTML, CSS
 app.use(express.static(path.join(__dirname, 'assets')));
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'assets', 'index.html'));
+  res.sendFile(path.join(__dirname, 'assets', 'index.html'));
 });
 
 // server start!!
 app.listen(port, () => {
-    console.log(port, '서버가 켜졌습니다.');
+  console.log(port, '서버가 켜졌습니다.');
 });
